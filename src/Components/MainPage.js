@@ -9,48 +9,14 @@ import API from "../API_Interface/API_Interface";
 import * as PropTypes from "prop-types";
 import {useAutocomplete} from "@mui/material";
 import Typography from "@mui/material/Typography";
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import { CardActionArea } from '@mui/material';
 
-const itemData = [
-    {
-        img: 'https://images.igdb.com/igdb/image/upload/t_cover_big/co2kh5.png',
-    },
-    {
-        img: 'https://images.igdb.com/igdb/image/upload/t_cover_big/nocover.png',
-    },
-    {
-        img: 'https://images.igdb.com/igdb/image/upload/t_cover_big/nocover.png',
-    },
-    {
-        img: 'https://images.igdb.com/igdb/image/upload/t_cover_big/nocover.png',
-    },
-    {
-        img: 'https://images.igdb.com/igdb/image/upload/t_cover_big/nocover.png',
-    },
-    {
-        img: 'https://images.igdb.com/igdb/image/upload/t_cover_big/nocover.png',
-    },
-    {
-        img: 'https://images.igdb.com/igdb/image/upload/t_cover_big/nocover.png',
-    },
-    {
-        img: 'https://images.igdb.com/igdb/image/upload/t_cover_big/nocover.png',
-    },
-    {
-        img: 'https://images.igdb.com/igdb/image/upload/t_cover_big/nocover.png',
-    },
-    {
-        img: 'https://images.igdb.com/igdb/image/upload/t_cover_big/nocover.png',
-    },
-    {
-        img: 'https://images.igdb.com/igdb/image/upload/t_cover_big/nocover.png',
-    },
-    {
-        img: 'https://images.igdb.com/igdb/image/upload/t_cover_big/nocover.png',
-    },
-];
 const flexContainer = {
     display: 'flex',
-    height: 400,
+    height: 350,
     flexDirection: 'row',
     flexShrink: 0,
     flexBasis: 0,
@@ -100,17 +66,21 @@ export default function MainPage() {
 
          <ImageList style={flexContainer}>
              {recentGames.map((item) => (
-                 <ImageListItem key={item.id} sx={{ flexShrink: 0 }}>
-                     <img
-                         src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item.image_id}.png`}
-                         srcSet={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item.image_id}.png`}
-                         alt={item.name}
-                         loading="lazy"
-                     />
-                     <ImageListItemBar
-                         title={item.name}
-                     />
-                 </ImageListItem>
+                 <Card sx={{ minWidth: 200 }}>
+                     <CardActionArea>
+                         <CardMedia
+                             component="img"
+                             height="240"
+                             image={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item.image_id}.png?w=248&fit=crop&auto=format`}
+                             alt={item.title}
+                         />
+                         <CardContent sx={{height: 80, overflow: 'hidden', textOverflow: 'ellipsis'}}>
+                             <Typography variant="subtitle1" component="div">
+                                 {item.name}
+                             </Typography>
+                         </CardContent>
+                     </CardActionArea>
+                 </Card>
              ))}
          </ImageList>
 
@@ -123,17 +93,21 @@ export default function MainPage() {
 
          <ImageList style={flexContainer}>
              {topGames.map((item) => (
-                 <ImageListItem key={item.id} sx={{ flexShrink: 0 }}>
-                     <img
-                         src={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item.image_id}.png?w=248&fit=crop&auto=format`}
-                         srcSet={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item.image_id}.png?w=248&fit=crop&auto=format&dpr=2 2x`}
-                         alt={item.title}
-                         loading="lazy"
-                     />
-                     <ImageListItemBar
-                         title={item.name}
-                     />
-                 </ImageListItem>
+                 <Card sx={{ minWidth: 200 }}>
+                     <CardActionArea>
+                         <CardMedia
+                             component="img"
+                             height="240"
+                             image={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item.image_id}.png?w=248&fit=crop&auto=format`}
+                             alt={item.title}
+                         />
+                         <CardContent sx={{height: 80, overflow: 'ellipsis'}}>
+                             <Typography  variant="subtitle" component="div">
+                                 {item.name}
+                             </Typography>
+                         </CardContent>
+                     </CardActionArea>
+                 </Card>
              ))}
          </ImageList>
 

@@ -8,7 +8,7 @@ const customTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: "#1c6a87"
+      main: "#072d42"
     }
   },
 
@@ -18,6 +18,11 @@ const customTheme = createTheme({
         text: {
           color: "#ffffff"
         }
+      }
+    },
+    MuiAppBar: {
+      defaultProps: {
+        enableColorOnDark: true,
       }
     }
   }
