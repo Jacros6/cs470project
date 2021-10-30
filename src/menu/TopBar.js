@@ -1,5 +1,6 @@
-import * as React from 'react';
-import {createTheme, styled, alpha, ThemeProvider} from '@mui/material/styles';
+import React, {useState} from 'react';
+import {Link} from 'react-router-dom';
+import {styled, alpha, ThemeProvider} from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
@@ -53,6 +54,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function TopBar(customTheme) {
+
     return (
         <ThemeProvider theme={customTheme}>
             <Box sx={{ flexGrow: 1 }}>
@@ -65,17 +67,17 @@ export default function TopBar(customTheme) {
                             sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
                         >
                             <Stack spacing={2} direction="row">
-                                <Button variant="text">
+                                <Button variant="text" component={Link} to={'/'}>
                                     <Typography variant="h6" component="div">
                                         Home
                                     </Typography>
                                 </Button>
-                                <Button variant="text">
+                                <Button variant="text" component={Link} to={'/games'}>
                                     <Typography variant="h6" component="div">
                                         Games
                                     </Typography>
                                 </Button>
-                                <Button variant="text">
+                                <Button variant="text" component={Link} to={'/lists'}>
                                     <Typography variant="h6" component="div">
                                         Lists
                                     </Typography>
@@ -102,7 +104,6 @@ export default function TopBar(customTheme) {
                     </Toolbar>
                 </AppBar>
             </Box>
-            <MainPage/>
         </ThemeProvider>
     );
 }

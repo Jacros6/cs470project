@@ -57,7 +57,6 @@ export default function MainPage() {
 
  return (
      <Fragment>
-
          <Box display="flex" justifyContent="left" alignItems="center" width="25%" m={4}>
              <Typography variant="h6"  component="div">
                  New Releases

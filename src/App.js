@@ -1,8 +1,10 @@
 import logo from './logo.svg';
 import './App.css';
-import TopBar from "./menu/TopBar";
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {CssBaseline} from "@mui/material";
+import TopBar from "./menu/TopBar";
+import MainPage from "./Components/MainPage";
 
 const customTheme = createTheme({
   palette: {
@@ -32,10 +34,23 @@ const customTheme = createTheme({
 
 function App() {
   return (
-      <ThemeProvider theme={customTheme}>
-        <CssBaseline />
-          <TopBar/>
-      </ThemeProvider>
+      <Router>
+        <ThemeProvider theme={customTheme}>
+          <CssBaseline />
+            <TopBar />
+            <Switch>
+              <Route exact path="/">
+                <MainPage />
+              </Route>
+              <Route exact path="/games">
+                <MainPage />
+              </Route>
+              <Route exact path="/lists">
+                <MainPage />
+              </Route>
+            </Switch>
+        </ThemeProvider>
+      </Router>
   );
 }
 
