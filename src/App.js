@@ -30,8 +30,6 @@ const customTheme = createTheme({
   }
 });
 
-
-
 function App() {
   return (
       <Router>

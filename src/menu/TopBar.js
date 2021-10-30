@@ -9,7 +9,6 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
-import MainPage from '../Components/MainPage';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',

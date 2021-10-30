@@ -57,6 +57,7 @@ export default function MainPage() {
 
  return (
      <Fragment>
+         <Box marginX={20}>
          <Box display="flex" justifyContent="left" alignItems="center" width="25%" m={4}>
              <Typography variant="h6"  component="div">
                  New Releases
@@ -74,7 +75,7 @@ export default function MainPage() {
                              alt={item.title}
                          />
                          <CardContent sx={{height: 80, overflow: 'hidden', textOverflow: 'ellipsis'}}>
-                             <Typography variant="subtitle1" component="div">
+                             <Typography variant="subtitle" component="div">
                                  {item.name}
                              </Typography>
                          </CardContent>
@@ -101,7 +102,7 @@ export default function MainPage() {
                              alt={item.title}
                          />
                          <CardContent sx={{height: 80, overflow: 'ellipsis'}}>
-                             <Typography  variant="subtitle" component="div">
+                             <Typography variant="subtitle" component="div">
                                  {item.name}
                              </Typography>
                          </CardContent>
@@ -109,7 +110,7 @@ export default function MainPage() {
                  </Card>
              ))}
          </ImageList>
-
+         </Box>
      </Fragment>
     );
 }
