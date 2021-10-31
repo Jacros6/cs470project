@@ -30,4 +30,11 @@ export default class APIInterface {
         return axiosAgent.get(`games/top-games`);
     }
 
+    async allGames() {
+        return axiosAgent.get(`games/all-games`)
+    }
+
+    async gameWithGameID(gameID) {
+        return axiosAgent.get(`games/${gameID}`)
+    }
 }

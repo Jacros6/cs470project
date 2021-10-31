@@ -5,6 +5,7 @@ import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {CssBaseline} from "@mui/material";
 import TopBar from "./menu/TopBar";
 import MainPage from "./Components/MainPage";
+import GameSummary from "./Components/GameSummary";
 
 const customTheme = createTheme({
   palette: {
@@ -45,6 +46,9 @@ function App() {
               </Route>
               <Route exact path="/lists">
                 <MainPage />
+              </Route>
+              <Route exact path="/games/:gameID">
+                <GameSummary />
               </Route>
             </Switch>
         </ThemeProvider>

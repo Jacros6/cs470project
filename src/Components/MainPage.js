@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Fragment, useState, useEffect} from 'react';
-import Paper from '@mui/material/Paper';
+import {Link} from 'react-router-dom';
 import Box from '@mui/material/Box';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
@@ -21,11 +21,9 @@ const flexContainer = {
     flexShrink: 0,
     flexBasis: 0,
     overflowX: 'none',
-    padding: 10,
 };
 
 export default function MainPage() {
-//style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', overflow: 'hidden',padding: 0
     const [recentGames, setRecentGames] = useState([]);
     const [topGames, setTopGames] = useState([]);
 
@@ -67,7 +65,7 @@ export default function MainPage() {
          <ImageList style={flexContainer}>
              {recentGames.map((item) => (
                  <Card sx={{ minWidth: 200 }}>
-                     <CardActionArea>
+                     <CardActionArea component={Link} to={{pathname: `/games/${item.slug}`, state: {game:item}}}>
                          <CardMedia
                              component="img"
                              height="240"
@@ -94,7 +92,7 @@ export default function MainPage() {
          <ImageList style={flexContainer}>
              {topGames.map((item) => (
                  <Card sx={{ minWidth: 200 }}>
-                     <CardActionArea>
+                     <CardActionArea component={Link} to={{pathname: `/games/${item.slug}`, state: {game:item}}}>
                          <CardMedia
                              component="img"
                              height="240"
