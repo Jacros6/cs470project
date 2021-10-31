@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@djthoms/pretty-checkbox": "^3.1.0",
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
     "@mui/icons-material": "^5.0.4",
@@ -10,8 +11,12 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.23.0",
+    "pretty-checkbox": "^3.0.3",
+    "pretty-checkbox-react": "^3.2.0",
     "react": "^17.0.2",
+    "react-checkbox-group": "^5.0.2",
     "react-dom": "^17.0.2",
+    "react-native": "^0.66.1",
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
     "web-vitals": "^1.1.2"
@@ -41,6 +46,7 @@
     ]
   },
   "devDependencies": {
-    "@mui/material": "^5.0.4"
+    "@mui/material": "^5.0.4",
+    "prop-types": "^15.7.2"
   }
 }

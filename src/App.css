@@ -41,3 +41,9 @@
   display:flex;
   flex-direction:row;
 }
+
+.boxed {
+  border: 20px solid ;
+  size: 20px;
+  width: 800px;
+}
