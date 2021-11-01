@@ -9,25 +9,12 @@ import {Switch, useCheckboxState, Checkbox} from 'pretty-checkbox-react';
 import Button from '@mui/material/Button';
 import '@djthoms/pretty-checkbox'
 import API from "../../src/API_Interface/API_Interface";
-import { useTheme } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableFooter from '@mui/material/TableFooter';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import LastPageIcon from '@mui/icons-material/LastPage';
 import ImageList from "@mui/material/ImageList";
 import Card from "@mui/material/Card";
 import {CardActionArea, TableHead} from "@mui/material";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
+import {Link} from "react-router-dom";
 
 
 //npm i pretty-checkbox pretty-checkbox-react
@@ -153,7 +140,7 @@ export default function GamesPage(customTheme) {
         async function genTable(){
             const tableJSONStringType = await api.allGames()
             console.log(tableJSONStringType.data.length)
-            for (let i = 0; i < tableJSONStringType.data.length /*500*/; i++){
+            for (let i = 0; i < tableJSONStringType.data.length; i++){
                 let arr = JSON.parse(tableJSONStringType.data[i].genres)
                 let arr2 = JSON.parse(tableJSONStringType.data[i].player_perspectives)
                 let arr3 = JSON.parse(tableJSONStringType.data[i].platforms)
@@ -193,16 +180,19 @@ export default function GamesPage(customTheme) {
                     }
                 }
             }
-            setTableState(arr4)
+            if(genreList.length == 0 && perspectiveList.length == 0 && platformList.length == 0) {
+                setTableState(tableJSONStringType.data);
+            } else {
+                setTableState(arr4);
+            }
+
         }
         genTable()
     }
 
     return (
         <Fragment>
-            <Box marginX={20}>
-                <Box display="flex" justifyContent="left" alignItems="center" width="100%" m={4}>
-                </Box>
+            <Box marginX={20} marginTop={5}>
                 <Box
                     sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 157, border: `1px solid white`}}
                 >
@@ -217,7 +207,7 @@ export default function GamesPage(customTheme) {
                 >
                     <Tab label="Genre" {...a11yProps(0)} >{}</Tab>
                     <Tab label="Player Perspective" {...a11yProps(1)} />
-                    <Tab label="Console" {...a11yProps(2)} />
+                    <Tab label="Platform" {...a11yProps(2)} />
                 </Tabs>
                     <div style={divStyle}>
                         <TabPanel value={value} index={0}>
@@ -241,16 +231,14 @@ export default function GamesPage(customTheme) {
                 </Box>
                 <p></p>
                 <Button variant={"outlined"} color="inherit" onClick={() => genTable()}>Filter</Button>
-            </Box>
-            <p></p>
-            <Box style={divStyle2}>
+
             <ImageList cols = {6}>
                 {tableState.map((item) => (
                     <Card sx={{ minWidth: 200 }}>
-                        <CardActionArea>
+                        <CardActionArea component={Link} to={{pathname: `/games/${item.slug}`, state: {game:item}}}>
                             <CardMedia
                                 component="img"
-                                height="400"
+                                height="350"
                                 image={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item.image_id}.png?w=248&fit=crop&auto=format`}
                                 alt={item.title}
                             />
