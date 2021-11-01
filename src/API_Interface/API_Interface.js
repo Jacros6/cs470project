@@ -22,8 +22,8 @@ const axiosAgent = AxiosConfigured();
 
 export default class APIInterface {
 
-    async recentGames() {
-        return axiosAgent.get(`games/recent-games`);
+    async recentGames(currentDate) {
+        return axiosAgent.get(`games/recent-games/${currentDate}`);
     }
 
     async topGames() {

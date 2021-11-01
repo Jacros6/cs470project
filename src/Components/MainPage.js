@@ -26,12 +26,13 @@ const flexContainer = {
 export default function MainPage() {
     const [recentGames, setRecentGames] = useState([]);
     const [topGames, setTopGames] = useState([]);
+    const currentDate = Date.now()/1000;
 
     useEffect( () => {
         const api = new API();
 
         async function getRecentGames() {
-            const recentJSONString = await api.recentGames();
+            const recentJSONString = await api.recentGames(currentDate);
             console.log(`recent games from DB ${JSON.stringify(recentJSONString)}`);
             setRecentGames(recentJSONString.data);
         }
@@ -51,63 +52,61 @@ export default function MainPage() {
         getTopGames();
     }, []);
 
-
-
  return (
      <Fragment>
          <Box marginX={20}>
-         <Box display="flex" justifyContent="left" alignItems="center" width="25%" m={4}>
-             <Typography variant="h6"  component="div">
-                 New Releases
-             </Typography>
-         </Box>
+             <Box display="flex" justifyContent="left" alignItems="center" width="25%" m={4}>
+                 <Typography variant="h6"  component="div">
+                     New Releases
+                 </Typography>
+             </Box>
 
-         <ImageList style={flexContainer}>
-             {recentGames.map((item) => (
-                 <Card sx={{ minWidth: 200 }}>
-                     <CardActionArea component={Link} to={{pathname: `/games/${item.slug}`, state: {game:item}}}>
-                         <CardMedia
-                             component="img"
-                             height="240"
-                             image={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item.image_id}.png?w=248&fit=crop&auto=format`}
-                             alt={item.title}
-                         />
-                         <CardContent sx={{height: 80, overflow: 'hidden', textOverflow: 'ellipsis'}}>
-                             <Typography variant="subtitle" component="div">
-                                 {item.name}
-                             </Typography>
-                         </CardContent>
-                     </CardActionArea>
-                 </Card>
-             ))}
-         </ImageList>
+             <ImageList style={flexContainer}>
+                 {recentGames.map((item) => (
+                     <Card sx={{ minWidth: 200 }}>
+                         <CardActionArea component={Link} to={{pathname: `/games/${item.slug}`, state: {game:item}}}>
+                             <CardMedia
+                                 component="img"
+                                 height="240"
+                                 image={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item.image_id}.png?w=248&fit=crop&auto=format`}
+                                 alt={item.title}
+                             />
+                             <CardContent sx={{height: 80, overflow: 'hidden', textOverflow: 'ellipsis'}}>
+                                 <Typography variant="subtitle" component="div">
+                                     {item.name}
+                                 </Typography>
+                             </CardContent>
+                         </CardActionArea>
+                     </Card>
+                 ))}
+             </ImageList>
 
 
-         <Box display="flex" justifyContent="left" alignItems="center" width="25%" m={4}>
-             <Typography variant="h6"  component="div">
-                 Top Rated
-             </Typography>
-         </Box>
+             <Box display="flex" justifyContent="left" alignItems="center" width="25%" m={4}>
+                 <Typography variant="h6"  component="div">
+                     Top Rated
+                 </Typography>
+             </Box>
 
-         <ImageList style={flexContainer}>
-             {topGames.map((item) => (
-                 <Card sx={{ minWidth: 200 }}>
-                     <CardActionArea component={Link} to={{pathname: `/games/${item.slug}`, state: {game:item}}}>
-                         <CardMedia
-                             component="img"
-                             height="240"
-                             image={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item.image_id}.png?w=248&fit=crop&auto=format`}
-                             alt={item.title}
-                         />
-                         <CardContent sx={{height: 80, overflow: 'ellipsis'}}>
-                             <Typography variant="subtitle" component="div">
-                                 {item.name}
-                             </Typography>
-                         </CardContent>
-                     </CardActionArea>
-                 </Card>
-             ))}
-         </ImageList>
+             <ImageList style={flexContainer}>
+                 {topGames.map((item) => (
+                     <Card sx={{ minWidth: 200 }}>
+                         <CardActionArea component={Link} to={{pathname: `/games/${item.slug}`, state: {game:item}}}>
+                             <CardMedia
+                                 component="img"
+                                 height="240"
+                                 image={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item.image_id}.png?w=248&fit=crop&auto=format`}
+                                 alt={item.title}
+                             />
+                             <CardContent sx={{height: 80, overflow: 'ellipsis'}}>
+                                 <Typography variant="subtitle" component="div">
+                                     {item.name}
+                                 </Typography>
+                             </CardContent>
+                         </CardActionArea>
+                     </Card>
+                 ))}
+             </ImageList>
          </Box>
      </Fragment>
     );
