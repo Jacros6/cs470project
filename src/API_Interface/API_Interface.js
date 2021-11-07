@@ -26,6 +26,14 @@ export default class APIInterface {
         return axiosAgent.get(`games/recent-games/${currentDate}`);
     }
 
+    async gamesWithFilter(genres, platform, perspective, start, end){
+        return axiosAgent.get(`games/gamesWithFilter/[${genres}]/[${platform}]/[${perspective}]/${start}`);
+    }
+
+    async gamesNumberWithFilter(genres, platform, perspective){
+        return axiosAgent.get(`games/gamesNumberWithFilter/[${genres}]/[${platform}]/[${perspective}]`);
+    }
+
     async topGames() {
         return axiosAgent.get(`games/top-games`);
     }

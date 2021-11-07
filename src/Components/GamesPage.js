@@ -15,6 +15,12 @@ import {CardActionArea, TableHead} from "@mui/material";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import {Link} from "react-router-dom";
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
 
 
 //npm i pretty-checkbox pretty-checkbox-react
@@ -60,13 +66,29 @@ export default function GamesPage(customTheme) {
     const [perspectiveList, setPerspectiveList] = React.useState([]);
     const [platformList, setPlatformList] = React.useState([]);
 
-    const [page, setPage] = React.useState(0);
+    let [page, setPage] = React.useState(1);
+    const [numPages, setNumPages] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [tableState, setTableState] = React.useState([])
+//handleChange handles the Genre Player Perspective Platform table
+
+    const [age, setAge] = React.useState('');
+
+
+    const handleTextBoxChange = (event) => {
+        setAge(event.target.value);
+    };
+
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+    const handlePageChange = (event, value) => {
+        page = value
+        setPage(page)
+        genTable()
+    }
 
     const handleGenreChange = (event) => {
         for (let i = 0; i < genreList.length; i++){
@@ -135,56 +157,15 @@ export default function GamesPage(customTheme) {
     //console.log("printing out perspectives: ", perspectives)
 
     const genTable = () => {
-        const arr4 = []
         const api = new API();
-        async function genTable(){
-            const tableJSONStringType = await api.allGames()
-            console.log(tableJSONStringType.data.length)
-            for (let i = 0; i < tableJSONStringType.data.length; i++){
-                let arr = JSON.parse(tableJSONStringType.data[i].genres)
-                let arr2 = JSON.parse(tableJSONStringType.data[i].player_perspectives)
-                let arr3 = JSON.parse(tableJSONStringType.data[i].platforms)
-
-                if (genreList.length > 0){
-                    for (let j = 0; j < genreList.length; j++){
-                        if(JSON.parse(tableJSONStringType.data[i].genres) !== null) {
-                            for (let k = 0; k < arr.length; k++) {
-                                if (genreList[j] === arr[k]){
-                                    arr4.push(tableJSONStringType.data[i])
-                                }
-                            }
-                        }
-                    }
-                }
-                if (perspectiveList.length > 0){
-                    for (let j = 0; j < perspectiveList.length; j++){
-                        if(JSON.parse(tableJSONStringType.data[i].player_perspectives) !== null){
-                            for (let k = 0; k < arr2.length; k++) {
-                                if (perspectiveList[j] === arr2[k]){
-                                    arr4.push(tableJSONStringType.data[i])
-                                }
-                            }
-                        }
-                    }
-                }
-                if (platformList.length > 0){
-                    for (let j = 0; j < platformList; j++){
-                        if(JSON.parse(tableJSONStringType.data[i].platforms) !== null){
-                            for (let k = 0; k < arr3.length; k++){
-                                if(platformList[j] === arr3[k]){
-                                    arr4.push(tableJSONStringType.data[i])
-
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            if(genreList.length == 0 && perspectiveList.length == 0 && platformList.length == 0) {
-                setTableState(tableJSONStringType.data);
-            } else {
-                setTableState(arr4);
-            }
+        let start_idx = (page - 1) * 100
+        async function genTable() {
+            console.log(start_idx)
+                //setTableState(tableJSONStringType.data)
+            const numberJSONStringType = await api.gamesNumberWithFilter(genreList,platformList,perspectiveList);
+            const tableJSONStringType = await api.gamesWithFilter(genreList, platformList, perspectiveList, start_idx)
+            setNumPages(Math.round(numberJSONStringType.data[0].count / 100))
+            setTableState(tableJSONStringType.data)
 
         }
         genTable()
@@ -230,8 +211,25 @@ export default function GamesPage(customTheme) {
                     </div>
                 </Box>
                 <p></p>
+                <Box width='25%' display={"inline-flex"}>
                 <Button variant={"outlined"} color="inherit" onClick={() => genTable()}>Filter</Button>
-
+                    <p> &nbsp;</p>
+                <FormControl fullWidth={true}>
+                    <InputLabel id="demo-simple-select-label">Sort By</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="demo-simple-select"
+                        value={age}
+                        label="Sort By"
+                        onChange={handleTextBoxChange}
+                    >
+                        <MenuItem value={10}>None</MenuItem>
+                        <MenuItem value={20}>Alphabetical</MenuItem>
+                        <MenuItem value={30}>Rating</MenuItem>
+                        <MenuItem value={40}>Recent</MenuItem>
+                    </Select>
+                </FormControl>
+                </Box >
             <ImageList cols = {6}>
                 {tableState.map((item) => (
                     <Card sx={{ minWidth: 200 }}>
@@ -251,6 +249,11 @@ export default function GamesPage(customTheme) {
                     </Card>
                 ))}
             </ImageList>
+                <Box width='25%' margin= "auto">
+                <Stack spacing={2}>
+                    <Pagination count={numPages} page={page} onChange={handlePageChange} variant="outlined" />
+                </Stack>
+                </Box>
             </Box>
         </Fragment>
     );
@@ -365,3 +368,53 @@ function TabPanel(props) {
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
             </Paper>*/
+//const tableJSONStringType = await api.gamesWithGenres(genreList)
+//console.log(tableJSONStringType.data)
+/*for (let i = 0; i < tableJSONStringType.data.length; i++) {
+    let arr = JSON.parse(tableJSONStringType.data[i].genres)
+    let arr2 = JSON.parse(tableJSONStringType.data[i].player_perspectives)
+    let arr3 = JSON.parse(tableJSONStringType.data[i].platforms)
+
+    /*if (genreList.length > 0){
+        for (let j = 0; j < genreList.length; j++){
+            if(JSON.parse(tableJSONStringType.data[i].genres) !== null) {
+                for (let k = 0; k < arr.length; k++) {
+                    if (genreList[j] === arr[k]){
+                        arr4.push(tableJSONStringType.data[i])
+                    }
+                }
+            }
+        }
+    }
+    if (perspectiveList.length > 0){
+        for (let j = 0; j < perspectiveList.length; j++){
+            if(JSON.parse(tableJSONStringType.data[i].player_perspectives) !== null){
+                for (let k = 0; k < arr2.length; k++) {
+                    if (perspectiveList[j] === arr2[k]){
+                        arr4.push(tableJSONStringType.data[i])
+                    }
+                }
+            }
+        }
+    }
+    if (platformList.length > 0){
+        for (let j = 0; j < platformList; j++){
+            if(JSON.parse(tableJSONStringType.data[i].platforms) !== null){
+                for (let k = 0; k < arr3.length; k++){
+                    if(platformList[j] === arr3[k]){
+                        arr4.push(tableJSONStringType.data[i])
+
+                    }
+                }
+            }
+        }
+    }
+}
+if(genreList.length == 0 && perspectiveList.length == 0 && platformList.length == 0) {
+    setTableState(tableJSONStringType.data);
+} else {
+    setTableState(arr4);
+}
+
+}
+}*/
