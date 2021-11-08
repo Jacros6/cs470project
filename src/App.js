@@ -7,6 +7,8 @@ import TopBar from "./menu/TopBar";
 import MainPage from "./Components/MainPage";
 import GameSummary from "./Components/GameSummary";
 import GamesPage from "./Components/GamesPage";
+import LoginPage from "./Components/LoginPage";
+import CreateAccountPage from "./Components/CreateAccountPage";
 
 const customTheme = createTheme({
   palette: {
@@ -50,6 +52,12 @@ function App() {
               </Route>
               <Route exact path="/games/:gameID">
                 <GameSummary />
+              </Route>
+              <Route exact path="/login">
+                <LoginPage />
+              </Route>
+              <Route exact path="/create-account">
+                <CreateAccountPage />
               </Route>
             </Switch>
         </ThemeProvider>

@@ -94,11 +94,13 @@ export default function TopBar(customTheme) {
                             />
                         </Search>
                         <Box margin={2} >
-                            <Typography
-                                variant="h6"
-                                component="div">
-                                Login
-                            </Typography>
+                            <Button variant="text" component={Link} to={'/login'}>
+                                <Typography
+                                    variant="h6"
+                                    component="div">
+                                    Login
+                                </Typography>
+                            </Button>
                         </Box>
                     </Toolbar>
                 </AppBar>
