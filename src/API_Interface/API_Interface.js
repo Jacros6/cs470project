@@ -26,8 +26,18 @@ export default class APIInterface {
         return axiosAgent.get(`games/recent-games/${currentDate}`);
     }
 
-    async gamesWithFilter(genres, platform, perspective, start, end){
+    async gamesWithFilter(genres, platform, perspective, start){
         return axiosAgent.get(`games/gamesWithFilter/[${genres}]/[${platform}]/[${perspective}]/${start}`);
+    }
+
+    async gamesWithFilterAlpha(genres, platform, perspective, start){
+        return axiosAgent.get(`games/gamesWithFilterAlpha/[${genres}]/[${platform}]/[${perspective}]/${start}`);
+    }
+    async gamesWithFilterRecent(genres, platform, perspective, start){
+        return axiosAgent.get(`games/gamesWithFilterRecent/[${genres}]/[${platform}]/[${perspective}]/${start}`);
+    }
+    async gamesWithFilterRating(genres, platform, perspective, start){
+        return axiosAgent.get(`games/gamesWithFilterRating/[${genres}]/[${platform}]/[${perspective}]/${start}`);
     }
 
     async gamesNumberWithFilter(genres, platform, perspective){

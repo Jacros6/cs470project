@@ -70,13 +70,13 @@ export default function GamesPage(customTheme) {
     const [numPages, setNumPages] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [tableState, setTableState] = React.useState([])
+    const [sortState, setSortState] = React.useState('aggregated_rating');
 //handleChange handles the Genre Player Perspective Platform table
 
-    const [age, setAge] = React.useState('');
 
 
     const handleTextBoxChange = (event) => {
-        setAge(event.target.value);
+        setSortState(event.target.value);
     };
 
 
@@ -160,10 +160,17 @@ export default function GamesPage(customTheme) {
         const api = new API();
         let start_idx = (page - 1) * 100
         async function genTable() {
-            console.log(start_idx)
-                //setTableState(tableJSONStringType.data)
+            let tableJSONStringType
+            if (sortState === 'aggregated_rating'){
+                tableJSONStringType = await api.gamesWithFilterRating(genreList, platformList, perspectiveList, start_idx)
+            }
+            if (sortState === 'recent'){
+                tableJSONStringType = await api.gamesWithFilterRecent(genreList, platformList, perspectiveList, start_idx)
+            }
+            if (sortState === 'alphabetical'){
+                tableJSONStringType = await api.gamesWithFilterAlpha(genreList, platformList, perspectiveList, start_idx)
+            }
             const numberJSONStringType = await api.gamesNumberWithFilter(genreList,platformList,perspectiveList);
-            const tableJSONStringType = await api.gamesWithFilter(genreList, platformList, perspectiveList, start_idx)
             setNumPages(Math.round(numberJSONStringType.data[0].count / 100))
             setTableState(tableJSONStringType.data)
 
@@ -190,7 +197,7 @@ export default function GamesPage(customTheme) {
                     <Tab label="Player Perspective" {...a11yProps(1)} />
                     <Tab label="Platform" {...a11yProps(2)} />
                 </Tabs>
-                    <div style={divStyle}>
+                    <div style={/*divStyle*/ spread2evenly}>
                         <TabPanel value={value} index={0}>
 
                             {genres.map(item=>(
@@ -219,14 +226,14 @@ export default function GamesPage(customTheme) {
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={age}
+                        value={sortState}
                         label="Sort By"
                         onChange={handleTextBoxChange}
+                        onClick={console.log(sortState)}
                     >
-                        <MenuItem value={10}>None</MenuItem>
-                        <MenuItem value={20}>Alphabetical</MenuItem>
-                        <MenuItem value={30}>Rating</MenuItem>
-                        <MenuItem value={40}>Recent</MenuItem>
+                        <MenuItem value={"aggregated_rating"} >Rating</MenuItem>
+                        <MenuItem value={"alphabetical"}>Alphabetical</MenuItem>
+                        <MenuItem value={"recent"}>Recent</MenuItem>
                     </Select>
                 </FormControl>
                 </Box >
@@ -284,6 +291,14 @@ TabPanel.propTypes = {
     index: PropTypes.number.isRequired,
     value: PropTypes.number.isRequired,
 };
+
+const spread2evenly={
+    display: 'inline-block',
+    zoom: 1, /* Trigger hasLayout */
+    align:'center',
+    overflowY: 'scroll',
+    width: '1900px',
+}
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
