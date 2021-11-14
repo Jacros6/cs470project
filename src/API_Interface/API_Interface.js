@@ -59,4 +59,11 @@ export default class APIInterface {
     async allGames(){
         return axiosAgent.get(`games/all-games`)
     }
+    async genresForGame(genres){
+        return axiosAgent.get(`games/genresForGame/${genres}`)
+    }
+
+    async gameLookup(game){
+        return axiosAgent.get(`games/gameLookup/${game}`)
+    }
 }
