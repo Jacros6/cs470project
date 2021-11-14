@@ -59,4 +59,11 @@ export default class APIInterface {
     async allGames(){
         return axiosAgent.get(`games/all-games`)
     }
+
+    async createAccount(username, email, credentials) {
+        return axiosAgent.get(`login/create/${username}/${email}/${credentials}`);
+    }
+    async login(username, credentials) {
+        return axiosAgent.get(`login/${username}/${credentials}`);
+    }
 }

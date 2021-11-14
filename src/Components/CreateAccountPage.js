@@ -12,13 +12,14 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import API from "../API_Interface/API_Interface";
 
 function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
             <Link color="inherit" href="https://mui.com/">
-                Your Website
+                Game List
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -30,12 +31,17 @@ export default function SignUp() {
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        // eslint-disable-next-line no-console
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        const inputUsername = data.get('username');
+        const inputEmail = data.get('email');
+        const inputPassword = data.get('password');
+
+        const result = sendAccountInfo(inputUsername, inputEmail, inputPassword);
     };
+
+    async function sendAccountInfo(inputUsername, inputEmail, inputPassword) {
+        const api = new API();
+        return await api.createAccount(inputUsername, inputEmail, inputPassword);
+    }
 
     return (
         <Fragment>
@@ -57,25 +63,15 @@ export default function SignUp() {
                     </Typography>
                     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={6}>
+                            <Grid item xs={12}>
                                 <TextField
-                                    autoComplete="given-name"
-                                    name="firstName"
+                                    name="username"
                                     required
                                     fullWidth
-                                    id="firstName"
-                                    label="First Name"
+                                    id="username"
+                                    label="Username"
                                     autoFocus
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    required
-                                    fullWidth
-                                    id="lastName"
-                                    label="Last Name"
-                                    name="lastName"
-                                    autoComplete="family-name"
+                                    color="secondary"
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -86,6 +82,7 @@ export default function SignUp() {
                                     label="Email Address"
                                     name="email"
                                     autoComplete="email"
+                                    color="secondary"
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -97,12 +94,7 @@ export default function SignUp() {
                                     type="password"
                                     id="password"
                                     autoComplete="new-password"
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <FormControlLabel
-                                    control={<Checkbox value="allowExtraEmails" color="primary" />}
-                                    label="I want to receive inspiration, marketing promotions and updates via email."
+                                    color="secondary"
                                 />
                             </Grid>
                         </Grid>
@@ -116,7 +108,7 @@ export default function SignUp() {
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link href="/login" variant="body2">
+                                <Link href="/login" variant="body2" color="#ffffff">
                                     Already have an account? Sign in
                                 </Link>
                             </Grid>

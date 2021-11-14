@@ -52,12 +52,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-export default function TopBar(customTheme) {
-
+export default function TopBar() {
     return (
-        <ThemeProvider theme={customTheme}>
             <Box sx={{ flexGrow: 1 }}>
-                <AppBar position="static" color={"primary"}>
+                <AppBar position="static" >
                     <Toolbar>
                         <Typography
                             variant="h6"
@@ -105,6 +103,5 @@ export default function TopBar(customTheme) {
                     </Toolbar>
                 </AppBar>
             </Box>
-        </ThemeProvider>
     );
 }

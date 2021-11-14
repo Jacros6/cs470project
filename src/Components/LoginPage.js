@@ -12,13 +12,14 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
+import API from "../API_Interface/API_Interface";
 
 function Copyright(props) {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
             <Link color="inherit" href="https://mui.com/">
-                Your Website
+                Game List
             </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -30,12 +31,16 @@ export default function SignInSide() {
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        // eslint-disable-next-line no-console
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        const inputUsername = data.get('username');
+        const inputPassword = data.get('password');
+
+        const result = sendInfo(inputUsername, inputPassword);
     };
+
+    async function sendInfo(inputUsername, inputPassword) {
+        const api = new API();
+        return await api.login(inputUsername, inputPassword);
+    }
 
     return (
         <Fragment>
@@ -76,11 +81,11 @@ export default function SignInSide() {
                                 margin="normal"
                                 required
                                 fullWidth
-                                id="email"
-                                label="Email Address"
-                                name="email"
-                                autoComplete="email"
+                                id="username"
+                                label="Username"
+                                name="username"
                                 autoFocus
+                                color="secondary"
                             />
                             <TextField
                                 margin="normal"
@@ -91,9 +96,10 @@ export default function SignInSide() {
                                 type="password"
                                 id="password"
                                 autoComplete="current-password"
+                                color="secondary"
                             />
                             <FormControlLabel
-                                control={<Checkbox value="remember" color="primary" />}
+                                control={<Checkbox value="remember" color="secondary"/>}
                                 label="Remember me"
                             />
                             <Button
@@ -106,12 +112,12 @@ export default function SignInSide() {
                             </Button>
                             <Grid container>
                                 <Grid item xs>
-                                    <Link href="#" variant="body2">
+                                    <Link href="#" variant="body2" color="#ffffff">
                                         Forgot password?
                                     </Link>
                                 </Grid>
                                 <Grid item>
-                                    <Link href="/create-account" variant="body2">
+                                    <Link href="/create-account" variant="body2" color="#ffffff">
                                         {"Don't have an account? Sign Up"}
                                     </Link>
                                 </Grid>
