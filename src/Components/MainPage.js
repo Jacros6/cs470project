@@ -60,7 +60,6 @@ export default function MainPage() {
                      New Releases
                  </Typography>
              </Box>
-
              <ImageList style={flexContainer}>
                  {recentGames.map((item) => (
                      <Card sx={{ minWidth: 200 }}>
@@ -87,8 +86,7 @@ export default function MainPage() {
                      Top Rated
                  </Typography>
              </Box>
-
-             <ImageList style={flexContainer}>
+             <ImageList style={flexContainer} >
                  {topGames.map((item) => (
                      <Card sx={{ minWidth: 200 }}>
                          <CardActionArea component={Link} to={{pathname: `/games/${item.slug}`, state: {game:item}}}>
