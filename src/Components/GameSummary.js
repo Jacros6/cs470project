@@ -2,6 +2,7 @@ import * as React from 'react';
 import {Fragment, useEffect} from 'react';
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack"
+import PropTypes from 'prop-types';
 import Paper from "@mui/material/Paper"
 import Box from "@mui/material/Box";
 import Card from '@mui/material/Card';
@@ -12,6 +13,12 @@ import Typography from "@mui/material/Typography";
 import API from "../API_Interface/API_Interface";
 import ImageList from "@mui/material/ImageList";
 import {CardActionArea} from "@mui/material";
+import Button from "@mui/material/Button";
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import List from '@mui/material/List';
+import ListItemText from '@mui/material/ListItemText';
+import ListItem from '@mui/material/ListItem';
 
 function getDate(unixTimestamp) {
     const milliseconds = unixTimestamp * 1000;
@@ -28,18 +35,65 @@ const flexContainer = {
     overflowX: 'none',
 };
 
-export default function GameSummary() {
+const emails = ['username@gmail.com', 'user02@gmail.com'];
+
+function SimpleDialog(props) {
+    const { onClose, selectedValue, open, lists, game } = props;
+
+    const handleClose = () => {
+        onClose(selectedValue);
+    };
+
+    const handleListItemClick = (data) => {
+        const api = new API();
+        api.addToList(data.listid, game.id);
+        onClose();
+    };
+
+    return (
+        <Dialog onClose={handleClose} open={open}>
+            <DialogTitle>Lists</DialogTitle>
+            <List sx={{ pt: 0 }}>
+                {lists.map((data) => (
+                    <ListItem button onClick={() => handleListItemClick(data)} key={data}>
+                        <ListItemText primary={data.listname} />
+                    </ListItem>
+                ))}
+
+                <ListItem autoFocus button onClick={() => handleListItemClick('addAccount')}>
+                    <ListItemText primary="Create List" />
+                </ListItem>
+            </List>
+        </Dialog>
+    );
+}
+
+SimpleDialog.propTypes = {
+    onClose: PropTypes.func.isRequired,
+    open: PropTypes.bool.isRequired,
+    selectedValue: PropTypes.string.isRequired,
+};
+
+export default function GameSummary({lists}) {
     const location = useLocation();
     const {game} = location.state;
     const formattedDate = getDate(game.first_release_date);
     const [genres, setGenres] = React.useState('');
     const [platforms, setPlatforms] = React.useState('');
     const [similar, setSimilar] = React.useState([]);
+    const [open, setOpen] = React.useState(false);
 
     const refresh = () => {
         return window.location.reload(false)
     }
 
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     useEffect(() =>{
         const api = new API();
@@ -141,6 +195,11 @@ export default function GameSummary() {
                             <Typography variant="subtitle1">
                                 Platforms: {platforms}
                             </Typography>
+                            <Box>
+                                <Button variant="outlined" onClick={handleClickOpen}>
+                                    Add to list
+                                </Button>
+                            </Box>
                         </Stack>
                     </Grid>
                     <Grid item xs={12}>
@@ -181,6 +240,12 @@ export default function GameSummary() {
                     </Grid>
                 </Grid>
             </Box>
+            <SimpleDialog
+                open={open}
+                onClose={handleClose}
+                lists={lists}
+                game={game}
+            />
         </Fragment>
     )
 }

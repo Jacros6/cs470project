@@ -27,20 +27,23 @@ function Copyright(props) {
     );
 }
 
-export default function SignInSide() {
-    const handleSubmit = (event) => {
+export default function SignInSide({setUser}) {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const inputUsername = data.get('username');
         const inputPassword = data.get('password');
 
-        const result = sendInfo(inputUsername, inputPassword);
+        const api = new API();
+        api.login(inputUsername, inputPassword)
+            .then( userInfo => {
+                console.log(`api returns user info: ${JSON.stringify(userInfo)}`);
+                if( userInfo.status === "OK" ) {
+                    setUser(userInfo.user);
+                }
+            });
     };
 
-    async function sendInfo(inputUsername, inputPassword) {
-        const api = new API();
-        return await api.login(inputUsername, inputPassword);
-    }
 
     return (
         <Fragment>

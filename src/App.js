@@ -9,6 +9,9 @@ import GameSummary from "./Components/GameSummary";
 import GamesPage from "./Components/GamesPage";
 import LoginPage from "./Components/LoginPage";
 import CreateAccountPage from "./Components/CreateAccountPage";
+import ListsPage from "./Components/ListsPage";
+import {useEffect, useState} from "react";
+import API from "./API_Interface/API_Interface";
 
 const customTheme = createTheme({
   palette: {
@@ -26,6 +29,11 @@ const customTheme = createTheme({
       styleOverrides: {
         text: {
           color: "#ffffff"
+        },
+        outlined: {
+          color: "#ffffff",
+          borderColor: "#bfbfbf",
+          size: "small"
         }
       }
     },
@@ -37,30 +45,51 @@ const customTheme = createTheme({
   }
 });
 
+const logout = (setUser) => {
+  return () => {
+    setUser(undefined);
+  }
+};
+
 function App() {
+  const [user, setUser] = useState(undefined);
+  const [lists, setLists] = useState([]);
+
+  useEffect( () => {
+    const api = new API();
+
+    async function getLists() {
+      const listsJSONString = await api.getAllLists(user);
+      console.log(`lists: ${JSON.stringify(listsJSONString)}`);
+      setLists(listsJSONString.data);
+    }
+
+    getLists();
+  }, [user]);
+
   return (
       <Router>
         <ThemeProvider theme={customTheme}>
           <CssBaseline />
-            <TopBar />
+            <TopBar user={user} logoutAction={logout(setUser)}/>
             <Switch>
               <Route exact path="/">
                 <MainPage />
               </Route>
               <Route exact path="/games">
-                <GamesPage />
-              </Route>
-              <Route exact path="/lists">
-                <MainPage />
+                <GamesPage lists={lists}/>
               </Route>
               <Route exact path="/games/:gameID">
-                <GameSummary />
+                <GameSummary lists={lists}/>
               </Route>
               <Route exact path="/login">
-                <LoginPage />
+                <LoginPage setUser={setUser}/>
               </Route>
               <Route exact path="/create-account">
                 <CreateAccountPage />
+              </Route>
+              <Route exact path="/lists">
+                <ListsPage lists={lists}/>
               </Route>
             </Switch>
         </ThemeProvider>

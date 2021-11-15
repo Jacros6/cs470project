@@ -178,6 +178,10 @@ export default function GamesPage(customTheme) {
         genTable()
     }
 
+    useEffect( () => {
+        genTable();
+    }, []);
+
     return (
         <Fragment>
             <Box marginX={20} marginTop={5}>

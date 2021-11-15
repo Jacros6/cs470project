@@ -70,6 +70,22 @@ export default class APIInterface {
         return axiosAgent.get(`login/create/${username}/${email}/${credentials}`);
     }
     async login(username, credentials) {
-        return axiosAgent.get(`login/${username}/${credentials}`);
+        return axiosAgent.get(`login/${username}/${credentials}`)
+            .then(userInfo => userInfo.data)
+            .catch(error => (
+                {
+                    error,
+                    user: undefined
+                }));
+    }
+
+    async getAllLists(username) {
+        return axiosAgent.get(`lists/all/${username}`);
+    }
+    async addToList(list, game) {
+        return axiosAgent.get(`lists/add/${list}/${game}`);
+    }
+    async getList(list) {
+        return axiosAgent.get(`lists/get/${list}`);
     }
 }

@@ -4,6 +4,7 @@ import {styled, alpha, ThemeProvider} from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
+import Divider from '@mui/material/Divider';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
@@ -52,7 +53,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
 }));
 
-export default function TopBar() {
+export default function TopBar({user, logoutAction}) {
     return (
             <Box sx={{ flexGrow: 1 }}>
                 <AppBar position="static" >
@@ -74,11 +75,18 @@ export default function TopBar() {
                                         Games
                                     </Typography>
                                 </Button>
-                                <Button variant="text" component={Link} to={'/lists'}>
-                                    <Typography variant="h6" component="div">
-                                        Lists
-                                    </Typography>
-                                </Button>
+                                { user === undefined ?
+                                    <Button variant="text" component={Link} to={'/login'}>
+                                        <Typography variant="h6" component="div">
+                                            Lists
+                                        </Typography>
+                                    </Button> :
+                                    <Button variant="text" component={Link} to={'/lists'}>
+                                        <Typography variant="h6" component="div">
+                                            Lists
+                                        </Typography>
+                                    </Button>
+                                }
                             </Stack>
                         </Typography>
 
@@ -92,13 +100,27 @@ export default function TopBar() {
                             />
                         </Search>
                         <Box margin={2} >
-                            <Button variant="text" component={Link} to={'/login'}>
-                                <Typography
-                                    variant="h6"
-                                    component="div">
-                                    Login
-                                </Typography>
-                            </Button>
+                            { user === undefined ?
+                                <Button variant="text" component={Link} to={'/login'}>
+                                    <Typography
+                                        variant="h6"
+                                        component="div">
+                                        Login
+                                    </Typography>
+                                </Button> :
+                                <Stack direction="row" divider={<Divider orientation="vertical" flexItem />} spacing={2}>
+                                    <Button variant="text">
+                                        <Typography variant="h6" component="div">
+                                            {user}
+                                        </Typography>
+                                    </Button>
+                                    <Button variant="text" onClick={logoutAction}>
+                                        <Typography variant="h6" component="div" >
+                                            Logout
+                                        </Typography>
+                                    </Button>
+                                </Stack>
+                            }
                         </Box>
                     </Toolbar>
                 </AppBar>

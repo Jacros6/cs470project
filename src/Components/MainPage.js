@@ -12,7 +12,8 @@ import Typography from "@mui/material/Typography";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import { CardActionArea } from '@mui/material';
+
+import { CardActionArea, CardActions } from '@mui/material';
 
 const flexContainer = {
     display: 'flex',
@@ -23,7 +24,7 @@ const flexContainer = {
     overflowX: 'none',
 };
 
-export default function MainPage() {
+export default function MainPage({lists}) {
     const [recentGames, setRecentGames] = useState([]);
     const [topGames, setTopGames] = useState([]);
     const currentDate = Date.now()/1000;
@@ -66,7 +67,7 @@ export default function MainPage() {
                          <CardActionArea component={Link} to={{pathname: `/games/${item.slug}`, state: {game:item}}}>
                              <CardMedia
                                  component="img"
-                                 height="240"
+                                 height="250"
                                  image={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item.image_id}.png?w=248&fit=crop&auto=format`}
                                  alt={item.title}
                              />
@@ -92,7 +93,7 @@ export default function MainPage() {
                          <CardActionArea component={Link} to={{pathname: `/games/${item.slug}`, state: {game:item}}}>
                              <CardMedia
                                  component="img"
-                                 height="240"
+                                 height="250"
                                  image={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item.image_id}.png?w=248&fit=crop&auto=format`}
                                  alt={item.title}
                              />
