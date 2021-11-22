@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Fragment} from 'react';
+import {Fragment, useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,6 +13,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import API from "../API_Interface/API_Interface";
+import {Redirect} from "react-router-dom";
 
 function Copyright(props) {
     return (
@@ -28,20 +29,27 @@ function Copyright(props) {
 }
 
 export default function SignUp() {
-    const handleSubmit = (event) => {
+    const [createSuccess, setSuccessStatus] = useState(false);
+    const [createFailure, setFailureStatus] = useState(false);
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const inputUsername = data.get('username');
         const inputEmail = data.get('email');
         const inputPassword = data.get('password');
 
-        const result = sendAccountInfo(inputUsername, inputEmail, inputPassword);
-    };
-
-    async function sendAccountInfo(inputUsername, inputEmail, inputPassword) {
         const api = new API();
-        return await api.createAccount(inputUsername, inputEmail, inputPassword);
-    }
+        const result = await api.createAccount(inputUsername, inputEmail, inputPassword);
+        if(result.status === "OK") {
+            setSuccessStatus(true);
+            setFailureStatus(false);
+        } else {
+            setSuccessStatus(false);
+            setFailureStatus(true);
+        }
+        console.log("result from signup", result);
+    };
 
     return (
         <Fragment>
@@ -106,6 +114,25 @@ export default function SignUp() {
                         >
                             Sign Up
                         </Button>
+                        {createFailure === true ?
+                            <Typography color="red">
+                                User already exists
+                            </Typography> :
+                            <Typography>
+
+                            </Typography>
+                        }
+                        {createSuccess === true ?
+                            <Typography color="Green">
+                                Account Creation Successful
+
+                                <Redirect to={{pathname: '/'}}>
+
+                                </Redirect>
+                            </Typography> :
+                            <Typography>
+                            </Typography>
+                        }
                         <Grid container justifyContent="flex-end">
                             <Grid item>
                                 <Link href="/login" variant="body2" color="#ffffff">

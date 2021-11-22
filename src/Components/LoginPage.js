@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Fragment} from 'react';
+import {Fragment, useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,6 +13,7 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import API from "../API_Interface/API_Interface";
+import {Redirect} from "react-router-dom";
 
 function Copyright(props) {
     return (
@@ -28,6 +29,8 @@ function Copyright(props) {
 }
 
 export default function SignInSide({setUser}) {
+    const [authSuccess, setAuthSuccess] = useState(false);
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
@@ -40,6 +43,7 @@ export default function SignInSide({setUser}) {
                 console.log(`api returns user info: ${JSON.stringify(userInfo)}`);
                 if( userInfo.status === "OK" ) {
                     setUser(userInfo.user);
+                    setAuthSuccess(true);
                 }
             });
     };
@@ -47,6 +51,9 @@ export default function SignInSide({setUser}) {
 
     return (
         <Fragment>
+            {authSuccess === true ? <Redirect to="/"></Redirect> :
+                <Typography></Typography>
+            }
             <Grid container component="main" sx={{ height: '100vh' }}>
                 <CssBaseline />
                 <Grid

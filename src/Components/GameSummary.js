@@ -225,7 +225,7 @@ export default function GameSummary({lists}) {
                                                 height="240"
                                                 image={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item.image_id}.png?w=248&fit=crop&auto=format`}
                                                 alt={item.title}
-                                                onClick={refresh}
+
                                             />
                                             <CardContent sx={{height: 80, overflow: 'hidden', textOverflow: 'ellipsis'}}>
                                                 <Typography variant="subtitle" component="div">

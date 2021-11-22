@@ -67,7 +67,13 @@ export default class APIInterface {
     }
 
     async createAccount(username, email, credentials) {
-        return axiosAgent.get(`login/create/${username}/${email}/${credentials}`);
+        return axiosAgent.get(`login/create/${username}/${email}/${credentials}`)
+            .then(userInfo => userInfo.data)
+            .catch(error => (
+                {
+                    error
+                }
+            ));
     }
     async login(username, credentials) {
         return axiosAgent.get(`login/${username}/${credentials}`)

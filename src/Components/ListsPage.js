@@ -25,16 +25,17 @@ const flexContainer = {
 
 export default function ListsPage({lists}) {
     const [combined, setCombined] = useState([]);
+    const [stateChange, setStateChange] = useState(false);
 
     async function genList() {
         const api = new API();
         let array = [];
 
-        lists.map(async (list) => {
+        await Promise.all(lists.map(async (list) => {
             const JSONList = await api.getList(list.listid);
             const tempObject = Object.assign(list, JSONList);
             array.push(tempObject);
-        });
+        }));
         console.log(JSON.stringify(array));
         return array;
     }
@@ -43,11 +44,20 @@ export default function ListsPage({lists}) {
 
         async function waitList() {
             const arr = await genList();
+            console.log(JSON.stringify(arr));
             setCombined(arr);
         }
 
         waitList();
     }, []);
+
+    useEffect( () => {
+        if( stateChange === false ) {
+            setStateChange(true);
+        } else {
+            setStateChange(false);
+        }
+    }, [combined]);
 
     return (
         <Fragment>
