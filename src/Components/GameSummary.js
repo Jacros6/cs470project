@@ -35,8 +35,6 @@ const flexContainer = {
     overflowX: 'none',
 };
 
-const emails = ['username@gmail.com', 'user02@gmail.com'];
-
 function SimpleDialog(props) {
     const { onClose, selectedValue, open, lists, game } = props;
 
@@ -59,10 +57,6 @@ function SimpleDialog(props) {
                         <ListItemText primary={data.listname} />
                     </ListItem>
                 ))}
-
-                <ListItem autoFocus button onClick={() => handleListItemClick('addAccount')}>
-                    <ListItemText primary="Create List" />
-                </ListItem>
             </List>
         </Dialog>
     );

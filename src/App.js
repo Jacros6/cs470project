@@ -89,7 +89,7 @@ function App() {
                 <CreateAccountPage />
               </Route>
               <Route exact path="/lists">
-                <ListsPage lists={lists} setLists={setLists}/>
+                <ListsPage user={user} lists={lists} setLists={setLists}/>
               </Route>
             </Switch>
         </ThemeProvider>

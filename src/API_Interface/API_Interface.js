@@ -94,4 +94,10 @@ export default class APIInterface {
     async getList(list) {
         return axiosAgent.get(`lists/get/${list}`);
     }
+    async deleteList(list) {
+        return axiosAgent.get(`lists/delete/${list}`);
+    }
+    async createList(user, list) {
+        return axiosAgent.get(`lists/create/${user}/${list}`);
+    }
 }
