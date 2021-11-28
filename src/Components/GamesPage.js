@@ -21,6 +21,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
+import TextField from '@mui/material/TextField';
 
 
 //npm i pretty-checkbox pretty-checkbox-react
@@ -73,15 +74,27 @@ export default function GamesPage(customTheme) {
     const [sortState, setSortState] = React.useState('aggregated_rating');
 //handleChange handles the Genre Player Perspective Platform table
 
+    const [checked, setChecked] = React.useState(false);
+    let [text, setText] = React.useState('');
 
 
     const handleTextBoxChange = (event) => {
         setSortState(event.target.value);
     };
 
+    const handleTextChange = (event) => {
+        setText(event.target.value);
+        console.log(event.target.value);
+    }
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        console.log(newValue)
+        if(newValue === 0) {
+            for (let i = 0; i < genreList.length; i++) {
+                console.log(genreList[i]);
+            }
+        }
     };
 
     const handlePageChange = (event, value) => {
@@ -130,6 +143,9 @@ export default function GamesPage(customTheme) {
         const api = new API();
         async function genreTypes(){
             const genresJSONStringType = await api.genres()
+            for(let i = 0; i < genresJSONStringType.data.length; i++){
+                genresJSONStringType.data[i].checked = false
+            }
             setGenres(genresJSONStringType.data)
         }
         //console.log(genres)
@@ -158,20 +174,23 @@ export default function GamesPage(customTheme) {
 
     const genTable = () => {
         const api = new API();
-        let start_idx = (page - 1) * 100
+        let start_idx = (page - 1) * 102
         async function genTable() {
             let tableJSONStringType
+            if(text === ''){
+                text = ' '
+            }
             if (sortState === 'aggregated_rating'){
-                tableJSONStringType = await api.gamesWithFilterRating(genreList, platformList, perspectiveList, start_idx)
+                tableJSONStringType = await api.gamesWithFilterRating(genreList, platformList, perspectiveList, text, start_idx)
             }
             if (sortState === 'recent'){
-                tableJSONStringType = await api.gamesWithFilterRecent(genreList, platformList, perspectiveList, start_idx)
+                tableJSONStringType = await api.gamesWithFilterRecent(genreList, platformList, perspectiveList, text, start_idx)
             }
             if (sortState === 'alphabetical'){
-                tableJSONStringType = await api.gamesWithFilterAlpha(genreList, platformList, perspectiveList, start_idx)
+                tableJSONStringType = await api.gamesWithFilterAlpha(genreList, platformList, perspectiveList, text, start_idx)
             }
             const numberJSONStringType = await api.gamesNumberWithFilter(genreList,platformList,perspectiveList);
-            setNumPages(Math.round(numberJSONStringType.data[0].count / 100))
+            setNumPages(Math.round(numberJSONStringType.data[0].count / 102))
             setTableState(tableJSONStringType.data)
 
         }
@@ -184,47 +203,36 @@ export default function GamesPage(customTheme) {
 
     return (
         <Fragment>
+            <div class="wrap">
+
+                <div class="floatleft">
+
+                    <Box marginX={5} marginTop={5}>
+                        <h1>Genres</h1>
+                        {genres.map(item=>(
+                            <Checkbox value={item.name} onClick={() => handleGenreChange(item.id)} animation="smooth">{item.name}</Checkbox>
+                        ))}
+
+                    </Box>
+                    <Box marginX={5} marginTop={5}>
+                        <h1>Player Perspectives</h1>
+                    {perspectives.map((item) =>(
+                        <Checkbox value={item.name} onClick={() => handlePerspectiveChange(item.id) } animation="smooth">{item.name}</Checkbox>
+                    ))}
+                    </Box>
+                    <Box marginX={5} marginTop={5}>
+                        <h1>Platforms</h1>
+                        {platforms.map((item) =>(
+                            <Checkbox value={item.name} onClick={() => handlePlatformChange(item.id)} animation="smooth">{item.name}</Checkbox>
+                        ))}
+                    </Box>
+                </div>
+                <div class="floatright">
             <Box marginX={20} marginTop={5}>
-                <Box
-                    sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 157, border: `1px solid white`}}
-                >
-                <Tabs
-                    orientation="vertical"
-                    variant="scrollable"
-                    value={value}
-                    onChange={handleChange}
-                    aria-label="Vertical tabs example"
-                    sx={{ borderRight: 1, borderColor: 'divider' }}
-                    textColor={"inherit"}
-                >
-                    <Tab label="Genre" {...a11yProps(0)} >{}</Tab>
-                    <Tab label="Player Perspective" {...a11yProps(1)} />
-                    <Tab label="Platform" {...a11yProps(2)} />
-                </Tabs>
-                    <div style={/*divStyle*/ spread2evenly}>
-                        <TabPanel value={value} index={0}>
-
-                            {genres.map(item=>(
-                                <Checkbox value={item.name} onClick={() => handleGenreChange(item.id)} animation="smooth">{item.name}</Checkbox>
-                            ))}
-
-                        </TabPanel>
-                        <TabPanel value={value} index={1}>
-                            {perspectives.map((item) =>(
-                                <Checkbox value={item.name} onClick={() => handlePerspectiveChange(item.id) } animation="smooth">{item.name}</Checkbox>
-                            ))}
-                        </TabPanel>
-                        <TabPanel value={value} index={2}>
-                            {platforms.map((item) =>(
-                                <Checkbox value={item.name} onClick={() => handlePlatformChange(item.id)} animation="smooth">{item.name}</Checkbox>
-                            ))}
-                        </TabPanel>
-                    </div>
-                </Box>
-                <p></p>
-                <Box width='25%' display={"inline-flex"}>
+                <Box width='70%' display={"inline-flex"}>
                 <Button variant={"outlined"} color="inherit" onClick={() => genTable()}>Filter</Button>
                     <p> &nbsp;</p>
+                    <Box width='20%' marginX={10}>
                 <FormControl fullWidth={true}>
                     <InputLabel id="demo-simple-select-label">Sort By</InputLabel>
                     <Select
@@ -233,13 +241,19 @@ export default function GamesPage(customTheme) {
                         value={sortState}
                         label="Sort By"
                         onChange={handleTextBoxChange}
-                        onClick={console.log(sortState)}
+                        onClick={console.log("")}
                     >
+
                         <MenuItem value={"aggregated_rating"} >Rating</MenuItem>
                         <MenuItem value={"alphabetical"}>Alphabetical</MenuItem>
                         <MenuItem value={"recent"}>Recent</MenuItem>
                     </Select>
                 </FormControl>
+                    </Box>
+                    <p> &nbsp;</p>
+                    <Box marginX={0} width={400}>
+                    <TextField label="Search By Name" onChange={handleTextChange}></TextField>
+                    </Box>
                 </Box >
             <ImageList cols = {6}>
                 {tableState.map((item) => (
@@ -266,6 +280,8 @@ export default function GamesPage(customTheme) {
                 </Stack>
                 </Box>
             </Box>
+                </div>
+            </div>
         </Fragment>
     );
 }
@@ -304,6 +320,18 @@ const spread2evenly={
     width: '1900px',
 }
 
+const split={
+    height: '100%',
+    width: '50%',
+    position: 'fixed',
+    top: '0',
+    right: '0'
+}
+
+const right={
+    right: '0'
+}
+
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
 
@@ -323,6 +351,64 @@ function TabPanel(props) {
         </div>
     );
 }
+
+/*<Box
+                    sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 157, border: `1px solid white`}}
+                >
+                <Tabs
+                    orientation="vertical"
+                    variant="scrollable"
+                    value={value}
+                    onChange={handleChange}
+                    aria-label="Vertical tabs example"
+                    sx={{ borderRight: 1, borderColor: 'divider' }}
+                    textColor={"inherit"}
+                >
+                    <Tab label="Genre" {...a11yProps(0)} >{}</Tab>
+                    <Tab label="Player Perspective" {...a11yProps(1)} />
+                    <Tab label="Platform" {...a11yProps(2)} />
+                </Tabs>
+                    /*<div style={/*divStyle spread2evenly}>
+<TabPanel value={value} index={0}>
+
+    {genres.map(item=>(
+            <Checkbox value={item.name} onClick={() => handleGenreChange(item.id)} animation="smooth">{item.name}</Checkbox>
+        ))}
+
+</TabPanel>
+<TabPanel value={value} index={1}>
+    {perspectives.map((item) =>(
+        <Checkbox value={item.name} onClick={() => handlePerspectiveChange(item.id) } animation="smooth">{item.name}</Checkbox>
+    ))}
+</TabPanel>
+<TabPanel value={value} index={2}>
+    {platforms.map((item) =>(
+        <Checkbox value={item.name} onClick={() => handlePlatformChange(item.id)} animation="smooth">{item.name}</Checkbox>
+    ))}
+</TabPanel>
+</div>
+</Box>*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*
                 <Box alignItems="center" m={4}>

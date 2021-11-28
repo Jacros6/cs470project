@@ -55,9 +55,10 @@ export default function MainPage({lists}) {
 
  return (
      <Fragment>
-         <Box marginX={20}>
+         <div>
+         <Box marginX={20} >
              <Box display="flex" justifyContent="left" alignItems="center" width="25%" m={4}>
-                 <Typography variant="h6"  component="div">
+                 <Typography variant="h2"  component="div">
                      New Releases
                  </Typography>
              </Box>
@@ -83,7 +84,7 @@ export default function MainPage({lists}) {
 
 
              <Box display="flex" justifyContent="left" alignItems="center" width="25%" m={4}>
-                 <Typography variant="h6"  component="div">
+                 <Typography variant="h2"  component="div">
                      Top Rated
                  </Typography>
              </Box>
@@ -107,6 +108,8 @@ export default function MainPage({lists}) {
                  ))}
              </ImageList>
          </Box>
+         </div>
      </Fragment>
     );
 }
+

@@ -11,6 +11,7 @@ import Button from '@mui/material/Button';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 
+
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -90,15 +91,7 @@ export default function TopBar({user, logoutAction}) {
                             </Stack>
                         </Typography>
 
-                        <Search>
-                            <SearchIconWrapper>
-                                <SearchIcon />
-                            </SearchIconWrapper>
-                            <StyledInputBase
-                                placeholder="Search…"
-                                inputProps={{ 'aria-label': 'search' }}
-                            />
-                        </Search>
+
                         <Box margin={2} >
                             { user === undefined ?
                                 <Button variant="text" component={Link} to={'/login'}>

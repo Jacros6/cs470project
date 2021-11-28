@@ -69,6 +69,7 @@ function App() {
 
   return (
       <Router>
+        <div style={testbackground}>
         <ThemeProvider theme={customTheme}>
           <CssBaseline />
             <TopBar user={user} logoutAction={logout(setUser)}/>
@@ -93,8 +94,17 @@ function App() {
               </Route>
             </Switch>
         </ThemeProvider>
-      </Router>
+        </div>
+        </Router>
+
   );
 }
 
 export default App;
+const testbackground={
+  backgroundColor: '#000000',
+  opacity: 1,
+  backgroundImage:  'linear-gradient(30deg, #101010 12%, transparent 12.5%, transparent 87%, #101010 87.5%, #101010), linear-gradient(150deg, #101010 12%, transparent 12.5%, transparent 87%, #101010 87.5%, #101010), linear-gradient(30deg, #101010 12%, transparent 12.5%, transparent 87%, #101010 87.5%, #101010), linear-gradient(150deg, #101010 12%, transparent 12.5%, transparent 87%, #101010 87.5%, #101010), linear-gradient(60deg, #10101077 25%, transparent 25.5%, transparent 75%, #10101077 75%, #10101077), linear-gradient(60deg, #10101077 25%, transparent 25.5%, transparent 75%, #10101077 75%, #10101077)',
+  backgroundSize: '80px 140px',
+  backgroundPosition: '0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px'
+}
