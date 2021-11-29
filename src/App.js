@@ -55,7 +55,7 @@ function App() {
   const [user, setUser] = useState(undefined);
   const [lists, setLists] = useState([]);
 
-  useEffect( () => {
+  /*useEffect( () => {
     const api = new API();
 
     async function getLists() {
@@ -65,7 +65,7 @@ function App() {
     }
 
     getLists();
-  }, [user]);
+  }, [user]);*/
 
   return (
       <Router>

@@ -178,20 +178,35 @@ export default function GamesPage(customTheme) {
         async function genTable() {
             let tableJSONStringType
             if(text === ''){
-                text = ' '
+                if (sortState === 'aggregated_rating') {
+                    tableJSONStringType = await api.gamesWithFilterRatingNoText(genreList, platformList, perspectiveList, start_idx)
+                }
+                if (sortState === 'recent') {
+                    tableJSONStringType = await api.gamesWithFilterRecentNoText(genreList, platformList, perspectiveList, start_idx)
+                }
+                if (sortState === 'alphabetical') {
+                    tableJSONStringType = await api.gamesWithFilterAlphaNoText(genreList, platformList, perspectiveList, start_idx)
+                }
+                const numberJSONStringType = await api.gamesNumberWithFilterNoText(genreList,platformList,perspectiveList);
+                setNumPages(Math.round(numberJSONStringType.data[0].count / 102))
+                setTableState(tableJSONStringType.data)
             }
-            if (sortState === 'aggregated_rating'){
-                tableJSONStringType = await api.gamesWithFilterRating(genreList, platformList, perspectiveList, text, start_idx)
+            if(text !== '') {
+                if (sortState === 'aggregated_rating') {
+                    tableJSONStringType = await api.gamesWithFilterRating(genreList, platformList, perspectiveList, text, start_idx)
+                }
+                if (sortState === 'recent') {
+                    tableJSONStringType = await api.gamesWithFilterRecent(genreList, platformList, perspectiveList, text, start_idx)
+                    console.log("printing tableJsonStringType", tableJSONStringType.data)
+                }
+                if (sortState === 'alphabetical') {
+                    tableJSONStringType = await api.gamesWithFilterAlpha(genreList, platformList, perspectiveList, text, start_idx)
+                }
+                const numberJSONStringType = await api.gamesNumberWithFilter(genreList,platformList,perspectiveList, text);
+                setNumPages(Math.round(numberJSONStringType.data[0].count / 102))
+                setTableState(tableJSONStringType.data)
             }
-            if (sortState === 'recent'){
-                tableJSONStringType = await api.gamesWithFilterRecent(genreList, platformList, perspectiveList, text, start_idx)
-            }
-            if (sortState === 'alphabetical'){
-                tableJSONStringType = await api.gamesWithFilterAlpha(genreList, platformList, perspectiveList, text, start_idx)
-            }
-            const numberJSONStringType = await api.gamesNumberWithFilter(genreList,platformList,perspectiveList);
-            setNumPages(Math.round(numberJSONStringType.data[0].count / 102))
-            setTableState(tableJSONStringType.data)
+
 
         }
         genTable()
