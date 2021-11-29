@@ -72,7 +72,7 @@ export default function ListsPage({user, lists, setLists}) {
 
         const api = new API();
         await api.createList(user, inputName);
-
+        await updateLists();
     }
 
     const handleDelete = async () => {
@@ -80,7 +80,14 @@ export default function ListsPage({user, lists, setLists}) {
         const api = new API();
         console.log(selectedList);
         await api.deleteList(selectedList);
-        refresher();
+        await updateLists();
+    }
+
+    const updateLists = async () => {
+        const api = new API();
+        const listsJSONString = await api.getAllLists(user);
+        console.log(`lists: ${JSON.stringify(listsJSONString)}`);
+        setLists(listsJSONString.data);
     }
 
     const refresher = () => {
@@ -104,16 +111,19 @@ export default function ListsPage({user, lists, setLists}) {
         return array;
     }
 
+    async function waitList() {
+        const arr = await genList();
+        console.log(JSON.stringify(arr));
+        setCombined(arr);
+    }
+
     useEffect( () => {
-
-        async function waitList() {
-            const arr = await genList();
-            console.log(JSON.stringify(arr));
-            setCombined(arr);
-        }
-
         waitList();
     }, []);
+
+    useEffect( () => {
+        waitList();
+    }, [lists]);
 
     useEffect( () => {
         refresher();
@@ -194,7 +204,6 @@ export default function ListsPage({user, lists, setLists}) {
                                     }}
                                     keepMounted
                                 >
-                                    <MenuItem onClick={handleClose}>Edit</MenuItem>
                                     <MenuItem onClick={() => handleDeleteOpen(list.listid)} >
                                         Delete
                                     </MenuItem>
