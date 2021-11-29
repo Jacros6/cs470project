@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {Fragment, useState, useEffect} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import Box from '@mui/material/Box';
 import ImageList from '@mui/material/ImageList';
 import API from "../API_Interface/API_Interface";
@@ -35,33 +35,13 @@ export default function ListsPage({user, lists, setLists}) {
     const [combined, setCombined] = useState([]);
     const [stateChange, setStateChange] = useState(false);
     const [openForm, setOpenForm] = useState(false);
-    const [openDelete, setOpenDelete] = useState(false);
-    const [anchorEl, setAnchorEl] = useState(null);
-    const [selectedList, setSelectedList] = useState(undefined);
-    const open = Boolean(anchorEl);
-
-    const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
 
     const handleFormOpen = () => {
         setOpenForm(true);
     };
+
     const handleFormClose = () => {
         setOpenForm(false);
-    };
-
-    const handleDeleteOpen = (id) => {
-        console.log(id);
-        handleClose();
-        setSelectedList(id);
-        setOpenDelete(true);
-    };
-    const handleDeleteClose = () => {
-        setOpenDelete(false);
     };
 
     const handleCreate = async (event) => {
@@ -72,14 +52,6 @@ export default function ListsPage({user, lists, setLists}) {
 
         const api = new API();
         await api.createList(user, inputName);
-        await updateLists();
-    }
-
-    const handleDelete = async () => {
-        handleDeleteClose();
-        const api = new API();
-        console.log(selectedList);
-        await api.deleteList(selectedList);
         await updateLists();
     }
 
@@ -131,6 +103,9 @@ export default function ListsPage({user, lists, setLists}) {
 
     return (
         <Fragment>
+            {user === undefined ? <Redirect to="/"></Redirect> :
+                <Typography></Typography>
+            }
             <Box marginX={20} marginTop={4}>
                  <Button variant="outlined" onClick={handleFormOpen}>
                      Create New List
@@ -157,57 +132,17 @@ export default function ListsPage({user, lists, setLists}) {
                     <Button type="submit" form="myform">Submit</Button>
                 </DialogActions>
             </Dialog>
-            <Dialog
-                open={openDelete}
-                onClose={handleDeleteClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">
-                    {"Are you sure you want to delete this list?"}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        You will not be able to recover your list once deleted.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleDeleteClose}>Cancel</Button>
-                    <Button onClick={handleDelete}>OK</Button>
-                </DialogActions>
-            </Dialog>
             {combined.map( (list) => (
                 <Box marginX={20}>
                     <Paper>
-                        <Box m={2}>
+                        <Box margin={2} padding={1}>
                             <Box display="flex" justifyContent="left" alignItems="center">
                                 <Typography variant="h6"  component="div" sx={{flexGrow: 1}}>
                                     {list.listname}
                                 </Typography>
-                                <IconButton
-                                    aria-label="more"
-                                    id="long-button"
-                                    aria-controls="long-menu"
-                                    aria-expanded={open ? 'true' : undefined}
-                                    aria-haspopup="true"
-                                    onClick={handleClick}
-                                >
-                                    <MoreVertIcon />
-                                </IconButton>
-                                <Menu
-                                    id="basic-menu"
-                                    anchorEl={anchorEl}
-                                    open={open}
-                                    onClose={handleClose}
-                                    MenuListProps={{
-                                        'aria-labelledby': 'basic-button',
-                                    }}
-                                    keepMounted
-                                >
-                                    <MenuItem onClick={() => handleDeleteOpen(list.listid)} >
-                                        Delete
-                                    </MenuItem>
-                                </Menu>
+                                <Button variant="contained" color="primary" component={Link} to={{pathname: `/lists/edit`, state: {mylist:list.listid}}}>
+                                    Edit
+                                </Button>
                             </Box>
                             <ImageList style={flexContainer}>
                                 {list.data.map( (item) => (
@@ -219,7 +154,7 @@ export default function ListsPage({user, lists, setLists}) {
                                                 image={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item.image_id}.png?w=248&fit=crop&auto=format`}
                                                 alt={item.title}
                                             />
-                                            <CardContent sx={{height: 80, overflow: 'hidden', textOverflow: 'ellipsis'}}>
+                                            <CardContent sx={{height: 100, overflow: 'hidden', textOverflow: 'ellipsis'}}>
                                                 <Typography variant="subtitle" component="div">
                                                     {item.name}
                                                 </Typography>

@@ -30,6 +30,7 @@ function Copyright(props) {
 
 export default function SignInSide({setUser}) {
     const [authSuccess, setAuthSuccess] = useState(false);
+    const [authFailed, setAuthFailed] = useState(false);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -44,6 +45,8 @@ export default function SignInSide({setUser}) {
                 if( userInfo.status === "OK" ) {
                     setUser(userInfo.user);
                     setAuthSuccess(true);
+                } else {
+                    setAuthFailed(true);
                 }
             });
     };
@@ -62,7 +65,7 @@ export default function SignInSide({setUser}) {
                     sm={4}
                     md={7}
                     sx={{
-                        backgroundImage: 'url(https://images.igdb.com/igdb/image/upload/t_original/pwhylsl5nx0bgj5lz2ok.jpg)',
+                        backgroundImage: 'url(./loginBackground.png)',
                         backgroundRepeat: 'no-repeat',
                         backgroundColor: (t) =>
                             t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -108,10 +111,18 @@ export default function SignInSide({setUser}) {
                                 autoComplete="current-password"
                                 color="secondary"
                             />
-                            <FormControlLabel
+                            {<FormControlLabel
                                 control={<Checkbox value="remember" color="secondary"/>}
                                 label="Remember me"
-                            />
+                            />}
+                            {authFailed === true ?
+                                <Typography color="red">
+                                    Incorrect username or password
+                                </Typography> :
+                                <Typography>
+
+                                </Typography>
+                            }
                             <Button
                                 type="submit"
                                 fullWidth

@@ -12,6 +12,7 @@ import CreateAccountPage from "./Components/CreateAccountPage";
 import ListsPage from "./Components/ListsPage";
 import {useEffect, useState} from "react";
 import API from "./API_Interface/API_Interface";
+import EditListPage from "./Components/EditListPage";
 
 const customTheme = createTheme({
   palette: {
@@ -90,6 +91,9 @@ function App() {
               </Route>
               <Route exact path="/lists">
                 <ListsPage user={user} lists={lists} setLists={setLists}/>
+              </Route>
+              <Route exact path="/lists/edit">
+                <EditListPage user={user} setLists={setLists}/>
               </Route>
             </Switch>
         </ThemeProvider>
