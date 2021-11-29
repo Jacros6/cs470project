@@ -14,6 +14,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 
 import { CardActionArea, CardActions } from '@mui/material';
+import Paper from "@mui/material/Paper";
 
 const flexContainer = {
     display: 'flex',
@@ -56,40 +57,45 @@ export default function MainPage({lists}) {
  return (
      <Fragment>
          <Box marginX={20}>
-             <Box display="flex" justifyContent="left" alignItems="center" width="25%" m={4}>
-                 <Typography variant="h6"  component="div">
-                     New Releases
-                 </Typography>
-             </Box>
-             <ImageList style={flexContainer}>
-                 {recentGames.map((item) => (
-                     <Card sx={{ minWidth: 200 }}>
-                         <CardActionArea component={Link} to={{pathname: `/games/${item.slug}`, state: {game:item}}}>
-                             <CardMedia
-                                 component="img"
-                                 height="250"
-                                 image={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item.image_id}.png?w=248&fit=crop&auto=format`}
-                                 alt={item.title}
-                             />
-                             <CardContent sx={{height: 110, overflow: 'hidden', textOverflow: 'ellipsis'}}>
-                                 <Typography variant="subtitle" component="div">
-                                     {item.name}
-                                 </Typography>
-                             </CardContent>
-                         </CardActionArea>
-                     </Card>
-                 ))}
-             </ImageList>
+             <Paper>
+                 <Box margin={2} padding={1}>
+                     <Box display="flex" justifyContent="left" alignItems="center" width="25%">
+                         <Typography variant="h6"  component="div">
+                             New Releases
+                         </Typography>
+                     </Box>
+                     <ImageList style={flexContainer}>
+                         {recentGames.map((item) => (
+                             <Card sx={{ minWidth: 200, backgroundColor: "#1d3f53" }}>
+                                 <CardActionArea component={Link} to={{pathname: `/games/${item.slug}`, state: {game:item}}}>
+                                     <CardMedia
+                                         component="img"
+                                         height="250"
+                                         image={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item.image_id}.png?w=248&fit=crop&auto=format`}
+                                         alt={item.title}
+                                     />
+                                     <CardContent sx={{height: 110, overflow: 'hidden', textOverflow: 'ellipsis'}}>
+                                         <Typography variant="subtitle" component="div">
+                                             {item.name}
+                                         </Typography>
+                                     </CardContent>
+                                 </CardActionArea>
+                             </Card>
+                         ))}
+                     </ImageList>
+                 </Box>
+             </Paper>
 
-
-             <Box display="flex" justifyContent="left" alignItems="center" width="25%" m={4}>
+             <Paper>
+                 <Box margin={2} padding={1}>
+             <Box display="flex" justifyContent="left" alignItems="center" width="25%">
                  <Typography variant="h6"  component="div">
                      Top Rated
                  </Typography>
              </Box>
              <ImageList style={flexContainer} >
                  {topGames.map((item) => (
-                     <Card sx={{ minWidth: 200 }}>
+                     <Card sx={{ minWidth: 200, backgroundColor: "#1d3f53"  }}>
                          <CardActionArea component={Link} to={{pathname: `/games/${item.slug}`, state: {game:item}}}>
                              <CardMedia
                                  component="img"
@@ -106,6 +112,8 @@ export default function MainPage({lists}) {
                      </Card>
                  ))}
              </ImageList>
+                 </Box>
+             </Paper>
          </Box>
      </Fragment>
     );

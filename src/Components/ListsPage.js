@@ -146,7 +146,7 @@ export default function ListsPage({user, lists, setLists}) {
                             </Box>
                             <ImageList style={flexContainer}>
                                 {list.data.map( (item) => (
-                                    <Card sx={{ minWidth: 200, maxWidth:200 }}>
+                                    <Card sx={{ minWidth: 200, maxWidth:200, backgroundColor:"#1d3f53" }}>
                                         <CardActionArea component={Link} to={{pathname: `/games/${item.slug}`, state: {game:item}}}>
                                             <CardMedia
                                                 component="img"

@@ -12,3 +12,12 @@ code {
     monospace;
 }
 
+.floatleft {
+  float:left;
+  width: 10%
+}
+
+.floatright {
+  float: right;
+  width: 90%
+}

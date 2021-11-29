@@ -223,31 +223,29 @@ export default function GamesPage(customTheme) {
                 <div class="floatleft">
 
                     <Box marginX={5} marginTop={5}>
-                        <h1>Genres</h1>
+                        <h2>Genres</h2>
                         {genres.map(item=>(
                             <Checkbox value={item.name} onClick={() => handleGenreChange(item.id)} animation="smooth">{item.name}</Checkbox>
                         ))}
 
                     </Box>
                     <Box marginX={5} marginTop={5}>
-                        <h1>Player Perspectives</h1>
+                        <h2>Player Perspectives</h2>
                         {perspectives.map((item) =>(
                             <Checkbox value={item.name} onClick={() => handlePerspectiveChange(item.id) } animation="smooth">{item.name}</Checkbox>
                         ))}
                     </Box>
                     <Box marginX={5} marginTop={5}>
-                        <h1>Platforms</h1>
+                        <h2>Platforms</h2>
                         {platforms.map((item) =>(
                             <Checkbox value={item.name} onClick={() => handlePlatformChange(item.id)} animation="smooth">{item.name}</Checkbox>
                         ))}
                     </Box>
                 </div>
-                <div class="floatright">
+                <div className="floatright">
                     <Box marginX={20} marginTop={5}>
-                        <Box width='70%' display={"inline-flex"}>
-                            <Button variant="contained" onClick={() => genTable()}>Filter</Button>
-                            <p> &nbsp;</p>
-                            <Box width='20%' marginX={10}>
+                        <Box display={"inline-flex"}>
+                            <Box width={150}>
                                 <FormControl fullWidth={true}>
                                     <InputLabel id="demo-simple-select-label">Sort By</InputLabel>
                                     <Select
@@ -266,10 +264,10 @@ export default function GamesPage(customTheme) {
                                     </Select>
                                 </FormControl>
                             </Box>
-                            <p> &nbsp;</p>
-                            <Box marginX={0} width={400}>
+                            <Box marginX={2} >
                                 <TextField color="secondary" label="Search By Name" onChange={handleTextChange}></TextField>
                             </Box>
+                            <Button variant="contained" onClick={() => genTable()}>Filter</Button>
                         </Box >
                         <ImageList cols = {6}>
                             {tableState.map((item) => (
@@ -290,7 +288,7 @@ export default function GamesPage(customTheme) {
                                 </Card>
                             ))}
                         </ImageList>
-                        <Box width='25%' margin= "auto">
+                        <Box display="flex" align="center" justifyContent="center" marginBottom={2}>
                             <Stack spacing={2}>
                                 <Pagination count={numPages} page={page} onChange={handlePageChange} variant="outlined" />
                             </Stack>

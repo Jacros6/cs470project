@@ -70,7 +70,6 @@ function App() {
 
   return (
       <Router>
-        <div style={testbackground}>
         <ThemeProvider theme={customTheme}>
           <CssBaseline />
             <TopBar user={user} logoutAction={logout(setUser)}/>
@@ -98,12 +97,12 @@ function App() {
               </Route>
             </Switch>
         </ThemeProvider>
-        </div>
       </Router>
   );
 }
 
 export default App;
+/*
 const testbackground={
   backgroundColor: '#000000',
   opacity: 1,
@@ -111,3 +110,4 @@ const testbackground={
   backgroundSize: '80px 140px',
   backgroundPosition: '0 0, 0 0, 40px 70px, 40px 70px, 0 0, 40px 70px'
 }
+*/
