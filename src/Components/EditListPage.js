@@ -105,11 +105,11 @@ export default function EditListPage({user, setLists}) {
                 </Box>
                 <ImageList cols={7}>
                     {list.map((item) => (
-                        <Card sx={{ minWidth: 200, height: 350}}>
+                        <Card sx={{ minWidth: 200, height: 400}}>
                             <CardActionArea component={Link} to={{pathname: `/games/${item.slug}`, state: {game:item}}}>
                                 <CardMedia
                                     component="img"
-                                    height="250"
+                                    height="300"
                                     image={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item.image_id}.png?w=248&fit=crop&auto=format`}
                                     alt={item.title}
                                 />
