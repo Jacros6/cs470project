@@ -90,15 +90,7 @@ export default function TopBar({user, logoutAction}) {
                             </Stack>
                         </Typography>
 
-                        <Search>
-                            <SearchIconWrapper>
-                                <SearchIcon />
-                            </SearchIconWrapper>
-                            <StyledInputBase
-                                placeholder="Search…"
-                                inputProps={{ 'aria-label': 'search' }}
-                            />
-                        </Search>
+
                         <Box margin={2} >
                             { user === undefined ?
                                 <Button variant="text" component={Link} to={'/login'}>

@@ -30,20 +30,32 @@ export default class APIInterface {
         return axiosAgent.get(`games/gamesWithFilter/[${genres}]/[${platform}]/[${perspective}]/${start}`);
     }
 
-    async gamesWithFilterAlpha(genres, platform, perspective, start){
-        return axiosAgent.get(`games/gamesWithFilterAlpha/[${genres}]/[${platform}]/[${perspective}]/${start}`);
+    async gamesWithFilterAlpha(genres, platform, perspective, text, start){
+        return axiosAgent.get(`games/gamesWithFilterAlpha/[${genres}]/[${platform}]/[${perspective}]/${text}/${start}`);
     }
-    async gamesWithFilterRecent(genres, platform, perspective, start){
-        return axiosAgent.get(`games/gamesWithFilterRecent/[${genres}]/[${platform}]/[${perspective}]/${start}`);
+    async gamesWithFilterRecent(genres, platform, perspective, text, start){
+        return axiosAgent.get(`games/gamesWithFilterRecent/[${genres}]/[${platform}]/[${perspective}]/${text}/${start}`);
     }
-    async gamesWithFilterRating(genres, platform, perspective, start){
-        return axiosAgent.get(`games/gamesWithFilterRating/[${genres}]/[${platform}]/[${perspective}]/${start}`);
+    async gamesWithFilterRecentNoText(genres, platform, perspective, start){
+        return axiosAgent.get(`games/gamesWithFilterRecentNoText/[${genres}]/[${platform}]/[${perspective}]/${start}`);
+    }
+    async gamesWithFilterRating(genres, platform, perspective, text, start){
+        return axiosAgent.get(`games/gamesWithFilterRating/[${genres}]/[${platform}]/[${perspective}]/${text}/${start}`);
+    }
+    async gamesWithFilterAlphaNoText(genres, platform, perspective, start){
+        return axiosAgent.get(`games/gamesWithFilterAlphaNoText/[${genres}]/[${platform}]/[${perspective}]/${start}`);
     }
 
-    async gamesNumberWithFilter(genres, platform, perspective){
-        return axiosAgent.get(`games/gamesNumberWithFilter/[${genres}]/[${platform}]/[${perspective}]`);
+    async gamesWithFilterRatingNoText(genres, platform, perspective, start){
+        return axiosAgent.get(`games/gamesWithFilterRatingNoText/[${genres}]/[${platform}]/[${perspective}]/${start}`);
     }
 
+    async gamesNumberWithFilterNoText(genres, platform, perspective){
+        return axiosAgent.get(`games/gamesNumberWithFilterNoText/[${genres}]/[${platform}]/[${perspective}]`);
+    }
+    async gamesNumberWithFilter(genres, platform, perspective, text){
+        return axiosAgent.get(`games/gamesNumberWithFilter/[${genres}]/[${platform}]/[${perspective}]/${text}`);
+    }
     async topGames() {
         return axiosAgent.get(`games/top-games`);
     }
