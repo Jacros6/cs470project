@@ -17,7 +17,7 @@ import { CardActionArea, CardActions } from '@mui/material';
 
 const flexContainer = {
     display: 'flex',
-    height: 350,
+    height: 360,
     flexDirection: 'row',
     flexShrink: 0,
     flexBasis: 0,
@@ -71,7 +71,7 @@ export default function MainPage({lists}) {
                                  image={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item.image_id}.png?w=248&fit=crop&auto=format`}
                                  alt={item.title}
                              />
-                             <CardContent sx={{height: 80, overflow: 'hidden', textOverflow: 'ellipsis'}}>
+                             <CardContent sx={{height: 110, overflow: 'hidden', textOverflow: 'ellipsis'}}>
                                  <Typography variant="subtitle" component="div">
                                      {item.name}
                                  </Typography>
@@ -97,7 +97,7 @@ export default function MainPage({lists}) {
                                  image={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item.image_id}.png?w=248&fit=crop&auto=format`}
                                  alt={item.title}
                              />
-                             <CardContent sx={{height: 80, overflow: 'ellipsis'}}>
+                             <CardContent sx={{height: 110, overflow: 'ellipsis'}}>
                                  <Typography variant="subtitle" component="div">
                                      {item.name}
                                  </Typography>

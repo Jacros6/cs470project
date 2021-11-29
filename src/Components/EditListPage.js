@@ -15,7 +15,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function EditListPage({user, setLists}) {
     const [list, setList] = useState([]);
@@ -48,15 +49,21 @@ export default function EditListPage({user, setLists}) {
         setLists(listsJSONString.data);
     }
 
-    useEffect( () => {
+    const handleGameDelete = async (id) => {
+        console.log(id);
         const api = new API();
+        await api.removeGame(mylist, id);
+        await getList();
+    }
 
-        async function getList() {
-            const JSONList = await api.getList(mylist);
-            console.log(`List: ${JSON.stringify(JSONList)}`);
-            setList(JSONList.data);
-        }
+    async function getList() {
+        const api = new API();
+        const JSONList = await api.getList(mylist);
+        console.log(`List: ${JSON.stringify(JSONList)}`);
+        setList(JSONList.data);
+    }
 
+    useEffect( () => {
         getList();
     }, []);
 
@@ -96,9 +103,9 @@ export default function EditListPage({user, setLists}) {
                         </DialogActions>
                     </Dialog>
                 </Box>
-                <ImageList cols = {6}>
+                <ImageList cols={7}>
                     {list.map((item) => (
-                        <Card sx={{ minWidth: 200, maxWidth: 200, height: 350}}>
+                        <Card sx={{ minWidth: 200, height: 350}}>
                             <CardActionArea component={Link} to={{pathname: `/games/${item.slug}`, state: {game:item}}}>
                                 <CardMedia
                                     component="img"
@@ -106,12 +113,17 @@ export default function EditListPage({user, setLists}) {
                                     image={`https://images.igdb.com/igdb/image/upload/t_cover_big/${item.image_id}.png?w=248&fit=crop&auto=format`}
                                     alt={item.title}
                                 />
-                                <CardContent sx={{height: 100, overflow: 'hidden'}}>
+                                <CardContent sx={{height: 45, overflow: 'hidden'}}>
                                     <Typography variant="subtitle" component="div">
                                         {item.name}
                                     </Typography>
                                 </CardContent>
                             </CardActionArea>
+                            <CardActions>
+                                <IconButton size="small" onClick={() => handleGameDelete(item.id)}>
+                                    <DeleteIcon />
+                                </IconButton>
+                            </CardActions>
                         </Card>
                     ))}
                 </ImageList>

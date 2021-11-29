@@ -100,4 +100,7 @@ export default class APIInterface {
     async createList(user, list) {
         return axiosAgent.get(`lists/create/${user}/${list}`);
     }
+    async removeGame(list, game) {
+        return axiosAgent.get(`lists/remove/${list}/${game}`);
+    }
 }
