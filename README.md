@@ -1,6 +1,11 @@
-# Getting Started with Create React App
+# Game List Project by Jacob Rosner and Kendall Fischer
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+
+##Required Libraries
+
+### `npm`
+### `npm install axios`
 
 ## Available Scripts
 
