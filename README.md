@@ -1,11 +1,13 @@
 # Game List Project by Jacob Rosner and Kendall Fischer
 
+[Demo Video](https://youtu.be/J6MKoddlJFs)
+
 Requires API to function.
 [Link to API](https://github.com/K3nFischer/cs470api)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-##Required Libraries
+## Required Libraries
 
 ### `npm`
 ### `npm install axios`
